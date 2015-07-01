@@ -1,0 +1,12 @@
+db1=db1
+db2=db2
+
+db1.jdbc=jdbc:mysql://127.0.0.1/db1
+db1.user=root
+db1.pwd=
+db1.name=Database 1
+
+db2.jdbc=jdbc:mysql://127.0.0.1/db2
+db2.user=root
+db2.pwd=
+db2.name=Database 2
