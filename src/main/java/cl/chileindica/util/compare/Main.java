@@ -6,27 +6,7 @@ import java.util.*;
 
 public class Main {
 	
-	public static class Data{
-		private String host;
-		private String port;
-		private String user;
-		private String pwd;
-		private String database;
-		
-		Data(String host,String  port,String user,String pwd,String database){
-			this.host=host;
-			this.port=port;
-			this.user=user;
-			this.pwd=pwd;
-			this.database=database;
-		}
-		
-		public Connection getConnection() throws SQLException{
-			
-			return DriverManager.getConnection("jdbc:mysql://"+this.host+":"+this.port+"/"+this.database,this.user,this.pwd);
-		}
-	}
-	
+
 	public static void main(String args[]) throws Exception{
 		
 		
@@ -38,11 +18,6 @@ public class Main {
 		prop.load(inputStream);
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		
-		//Connection conn1=DriverManager.getConnection("jdbc:mysql://192.168.3.118/arica","adm_arica","arica");
-		//Connection conn1=DriverManager.getConnection("jdbc:mysql://localhost:3307/arica","admarica","arica");
-		//Connection conn2=DriverManager.getConnection("jdbc:mysql://localhost:3307/maule","admmaule","subderemaule2010");
-		
 		
 		String db1=prop.getProperty("db1");
 		String db2=prop.getProperty("db2");
@@ -59,10 +34,6 @@ public class Main {
 		String name1=prop.getProperty(db1+".name");
 		String name2=prop.getProperty(db2+".name");
 
-		
-		
-//		Connection conn1=DriverManager.getConnection("jdbc:mysql://192.168.3.118/arica","root","subdere2012");
-//		Connection conn2=DriverManager.getConnection("jdbc:mysql://192.168.3.118/magallanes","root","subdere2012");
 
 		Connection conn1=DriverManager.getConnection(jdbc1,user1,pwd1);
 		Connection conn2=DriverManager.getConnection(jdbc2,user2,pwd2);
@@ -119,8 +90,6 @@ public class Main {
 		}
 		
 	}
-	
-
 	
 	
 	public List<String> getTables(DatabaseMetaData m1) throws Exception{

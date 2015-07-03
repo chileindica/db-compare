@@ -87,10 +87,10 @@ class DBComparator {
 			ColumnDiff td = diff.getValue();
 
 			if (td.isOnlyLeft()) {
-				System.out.println("ALTER TABLE "+t2.getTableName()+" ADD "+columnName+ " " +td.getLeft().getTypeName() +"("+ td.getLeft().getColumnSize()+") "+ (td.getLeft().getColumnIsNullable().equals("YES")?"":"" ) +" ;");
+				System.out.println("ALTER TABLE "+t2.getTableName()+" ADD "+columnName+ " " +getType(td.getLeft())+" "+ (td.getLeft().getColumnIsNullable().equals("YES")?"":"" ) +" ;");
 				
 			} else if (td.isOnlyRight()) {
-				System.out.println("//ALTER TABLE "+t1.getTableName()+" DROP COLUMN "+columnName+";");
+				System.out.println("#ALTER TABLE "+t1.getTableName()+" DROP COLUMN "+columnName+";");
 			} else {
 				compareColumns(td.getLeft(), td.getRight());
 				// System.out.println(columnName
@@ -101,18 +101,31 @@ class DBComparator {
 
 	}
 
+	private static String getType(Column col){
+		String type="";
+		if(col.getTypeName().equals("LONGVARCHAR")){
+			type="TEXT";
+		}else if(col.getTypeName().equals("DATE")){
+			type="DATE";
+		}else{
+			type= col.getTypeName() +"(" +col.getColumnSize()+")";
+		}
+		return type;
+	}
+	
+	
 	private static void compareColumns(Column left, Column right) {
 		String columnName = left.getColumnName();
 		if (!left.getColumnIsNullable().equals(right.getColumnIsNullable())) {
 			
-			System.out.println("ALTER TABLE "+ left.getTableName()+ " MODIFY "+columnName+ " " +(right.getColumnIsNullable().equals("YES")?"NOT NULL":"NULL")+";" );
+			System.out.println("ALTER TABLE "+ left.getTableName()+ " MODIFY "+columnName+ " "+ getType(left) +" " +(right.getColumnIsNullable().equals("YES")?"NOT NULL":"NULL")+";" );
 			
 			//System.out.println(columnName + " is " +  (left.getColumnIsNullable().equals("YES")?" nullable ":"not nullable") +" at left table " +left.getTableName() +" instead of " + (right.getColumnIsNullable().equals("YES")?" nullable ":"not nullable")  );
 		}
 
 		if ( (left.getType() != right.getType() ) || (left.getColumnSize() != right.getColumnSize() )) {
 			
-			System.out.println("ALTER TABLE "+ left.getTableName()+ " MODIFY "+columnName+ " "+ left.getTypeName() +"(" +left.getColumnSize()+");" );
+			System.out.println("ALTER TABLE "+ left.getTableName()+ " MODIFY "+columnName+ " "+getType(left)+";" );
 		}
 	}
 
@@ -146,7 +159,7 @@ class DBComparator {
 			if (td.isOnlyLeft()) {
 				System.out.println("CREATE TABLE "+tableName+";");
 			} else if (td.isOnlyRight()) {
-				System.out.println("//DROP TABLE "+tableName+";");
+				System.out.println("#DROP TABLE "+tableName+";");
 			} else {
 				compareTables(td.getLeft(), td.getRight());
 			}
