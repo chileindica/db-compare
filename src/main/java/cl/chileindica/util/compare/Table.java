@@ -22,7 +22,7 @@ class Table{
 	public void addColumns(List<Column> columns){
 		this.columns=columns;
 	}
-
+	
 	public String getTableName() {
 		return tableName;
 	}

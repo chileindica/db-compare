@@ -6,7 +6,6 @@ import java.util.*;
 
 public class Main {
 	
-
 	public static void main(String args[]) throws Exception{
 		
 		
@@ -63,6 +62,7 @@ public class Main {
 			database.addTable(table);
 			List<Column> columns = getColumns(m1,tableName);
 			table.addColumns(columns);
+			
 			List<Key> keys = getKeys(m1,tableName);
 			table.addKeys(keys);
 		}
@@ -111,6 +111,8 @@ public class Main {
 		return tables;
 	}
 	
+	
+	
 	public List<Column> getColumns(DatabaseMetaData m1,String tableName) throws Exception{
 		String   catalog           = null;
 		String   schemaPattern     = null;
@@ -118,10 +120,13 @@ public class Main {
 		String   columnNamePattern = null;
 
 		List<Column>columns=new LinkedList<Column>();
+
+		
+//		ResultSet indexes = m1.getIndexInfo(catalog, schemaPattern, tableNamePattern, false, false);
 		
 		ResultSet result = m1.getColumns(
 		    catalog, schemaPattern,  tableNamePattern, columnNamePattern);
-
+		
 		while(result.next()){
 		    String columnName = result.getString(4);
 		    int    columnType = result.getInt(5);

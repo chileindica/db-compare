@@ -98,6 +98,36 @@ class DBComparator {
 			}
 
 		}
+		
+		
+		List<Key> lk1 = t1.getKeys();
+		List<Key> lk2 = t2.getKeys();
+		
+		for(Key k1:lk1 ){
+			boolean present=false;
+			for(Key k2:lk2 ){
+				if(k1.getColumnName().equals(k2.getColumnName())) present=true;
+			}
+			
+			if(!present){
+				System.out.println("#"+k1.getColumnName()+"  NEEDS TO BE ADDED TO PK OF TABLE "+t1.getTableName()+" FROM DATABASE 2");
+			}
+		}
+		
+		for(Key k2:lk2 ){
+			boolean present=false;
+			for(Key k1:lk1 ){
+				if(k1.getColumnName().equals(k2.getColumnName())) present=true;
+			}
+
+			if(!present){
+				System.out.println("#"+k2.getColumnName()+"  NEEDS TO BE REMOVED FROM PK OF TABLE "+t1.getTableName()+" FROM DATABASE 2");
+			}
+
+			
+		}
+		
+		
 
 	}
 
